@@ -18,4 +18,4 @@ possono selezionare dal menù, allora se dopo si clicca su uno spazio vuoto si p
 volta posizionata si spenderà il costo della torretta, ogni volta che un nemico viene ucciso da una torretta
 allora si guadagnerà un po di soldi.
 ## UML
-![Progetto drawio](https://github.com/user-attachments/assets/83020fb4-fca4-48af-82ce-5eb7f80d42e7)
+![Progettopng](https://github.com/user-attachments/assets/44eba60b-772e-41a2-951b-8e98e2bd6353)
