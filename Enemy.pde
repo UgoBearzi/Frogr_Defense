@@ -6,10 +6,10 @@ abstract class Enemy{
   Direction movementDirection;
   
   public Enemy(){
-    this.enemySize = 40;
+    this.enemySize = 30;
     this.x = 0;
     this.y = 0;
-    this.speed = 5;
+    this.speed = 1;
     this.damage = 1;
     this.health = 5;
     this.movementDirection = Direction.RIGHT;
@@ -38,7 +38,7 @@ abstract class Enemy{
   }
   
   public void takeDamage(int externalDamage){
-    this.health -= externalDamage;
+    health -= externalDamage;
   }
   
   public boolean checkIfDead(){

@@ -12,7 +12,7 @@ class Tower extends Tile{
     this.pressedColor = color(191, 187, 168);
     this.highlightColor = color(209, 0, 0);
     this.currentColor = buttonColor;
-    this.health = 1;
+    this.health = 2;
     this.isDead = false;
   }
   
@@ -25,7 +25,7 @@ class Tower extends Tile{
     this.pressedColor = color(191, 187, 168);
     this.highlightColor = color(209, 0, 0);
     this.currentColor = buttonColor;
-    this.health = 1;
+    this.health = 2;
     this.isDead = false;
   }
 
@@ -49,8 +49,9 @@ class Tower extends Tile{
   }
   
   public void takeDamage(Enemy enemy){
-    if(isEnemyInside(enemy)){
+    if(isEnemyInside(enemy) && enemy.health > 0){
       health -= enemy.damage;
+      enemy.takeDamage(100);
     }
     if(health <= 0){
       isDead = true;

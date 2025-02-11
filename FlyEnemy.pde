@@ -1,7 +1,7 @@
 class FlyEnemy extends Enemy{
   
   public FlyEnemy(){
-    this.enemySize = 40;
+    this.enemySize = 30;
     this.x = 0;
     this.y = 0;
     this.speed = 5;
@@ -11,7 +11,7 @@ class FlyEnemy extends Enemy{
   }
   
   public FlyEnemy(int x, int y){
-    this.enemySize = 40;
+    this.enemySize = 30;
     this.x = x-(enemySize/2);
     this.y = y-(enemySize/2);
     this.speed = 1;
