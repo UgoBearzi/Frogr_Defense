@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 
 class Spawner extends Tile{
-  
-  Enemy[] enemiesToSpawn;
-  ArrayList<Enemy> spawnedEnemies;
+ 
   int spawnLocationX;
   int spawnLocationY;
+  ArrayList<Enemy> spawnedEnemies;
   
   public Spawner(){
     this.width = 50;
@@ -16,7 +15,6 @@ class Spawner extends Tile{
     this.pressedColor = color(184, 123, 123);
     this.highlightColor = color(209, 0, 0);
     this.currentColor = buttonColor;
-    this.enemiesToSpawn = new Enemy[20];
     this.spawnLocationX = x+ width/2;
     this.spawnLocationY = y + height/2;
     this.spawnedEnemies = new ArrayList<Enemy>();
@@ -31,26 +29,24 @@ class Spawner extends Tile{
     this.pressedColor = color(184, 123, 123);
     this.highlightColor = color(209, 0, 0);
     this.currentColor = buttonColor;
-    this.enemiesToSpawn = new Enemy[20];
     this.spawnLocationX = x+ width/2;
     this.spawnLocationY = y + height/2;
     this.spawnedEnemies = new ArrayList<Enemy>();
+  }
+  
+  public void showEnemies(){
+    for(int i = 0; i < spawnedEnemies.size(); i++){
+      spawnedEnemies.get(i).show();  
+    }
   }
 
   public void show(){
     buttonStatus();
     changeColor();
-    
-    for(int i = 0; i < spawnedEnemies.size(); i++){
-      spawnedEnemies.get(i).show();  
-    }
+    showEnemies();
     
     fill(currentColor);
     rect(x, y, width, height);
-  }
-  
-  public void setEnemiesToSpawn(Enemy enemy1, Enemy enemy2, Enemy enemy3){
-    
   }
   
   public void addEnemies(Enemy enemy1, Enemy enemy2, Enemy enemy3, int numberOfEnemies){
