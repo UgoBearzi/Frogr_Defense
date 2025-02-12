@@ -49,23 +49,8 @@ class Spawner extends Tile{
     rect(x, y, width, height);
   }
   
-  public void addEnemies(Enemy enemy1, Enemy enemy2, Enemy enemy3, int numberOfEnemies){
-    int randomNumber = 0;
-    for(int i = 0; i < numberOfEnemies; i++){
-      randomNumber = (int)(Math.random() * 3);
-      switch(randomNumber){
-        case 0:
-          this.spawnedEnemies.add(enemy1);
-          break;
-        case 1:
-          this.spawnedEnemies.add(enemy2);
-          break;
-        case 2:
-          this.spawnedEnemies.add(enemy3);
-          break;
-      }
-    }
-    
+  public void addEnemies(Enemy enemy){
+    spawnedEnemies.add(enemy);
   }
   
 }
