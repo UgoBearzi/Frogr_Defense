@@ -4,28 +4,14 @@ class Tower extends Tile{
   boolean isDead;
   
   public Tower(){
-    this.width = 50;
-    this.height = 50;
-    this.x = 0;
-    this.y = 0;
-    this.buttonColor = color(230, 228, 202);
-    this.pressedColor = color(191, 187, 168);
-    this.highlightColor = color(209, 0, 0);
-    this.currentColor = buttonColor;
-    this.health = 2;
+    super();
+    this.health = 0;
     this.isDead = false;
   }
   
-  public Tower(int x, int y){
-    this.width = 50;
-    this.height = 50;
-    this.x = x;
-    this.y = y;
-    this.buttonColor = color(230, 228, 202);
-    this.pressedColor = color(191, 187, 168);
-    this.highlightColor = color(209, 0, 0);
-    this.currentColor = buttonColor;
-    this.health = 2;
+  public Tower(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int health){
+    super(width, height, x, y, buttonColor, pressedColor, highlightColor);
+    this.health = health;
     this.isDead = false;
   }
 
@@ -45,12 +31,12 @@ class Tower extends Tile{
   }
   
   public boolean isEnemyInside(Enemy enemy){
-    return (enemy.x >= x && enemy.y >= y && (enemy.x + enemy.enemySize) <= (x + width) && (enemy.y + enemy.enemySize) <= (y + height));
+    return (enemy.getX() >= x && enemy.getY() >= y && (enemy.x + enemy.getEnemySize()) <= (x + width) && (enemy.getY() + enemy.getEnemySize()) <= (y + height));
   }
   
   public void takeDamage(Enemy enemy){
-    if(isEnemyInside(enemy) && enemy.health > 0){
-      health -= enemy.damage;
+    if(isEnemyInside(enemy) && enemy.getHealth() > 0){
+      health -= enemy.getDamage();
       enemy.takeDamage(100);
     }
     if(health <= 0){
