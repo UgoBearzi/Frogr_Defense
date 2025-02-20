@@ -7,8 +7,8 @@ Tile[][] tiles = new Tile[rows][columns];
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
 
 
-LabeledButton startWave = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
-Menu menu = new Menu("Frogr defense", startWave, 0, 0);
+LabeledButton waveButton = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
+Menu menu = new Menu("Frogr defense", waveButton, 100);
 
 public void setupGrid(){
   for(int i = 0; i < rows; i++){

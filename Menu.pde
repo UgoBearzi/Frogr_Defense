@@ -1,5 +1,5 @@
 class Menu{
-  String title;
+  String title, currentMoneyString;
   LabeledButton startWaveButton;
   int startingMoney, currentMoney;
   
@@ -7,14 +7,14 @@ class Menu{
     this.title = "";
     this.startWaveButton = new LabeledButton();
     this.startingMoney = 0;
-    this.currentMoney = 0;
+    this.currentMoney = startingMoney;
   }
 
-  public Menu(String title, LabeledButton startWaveButton, int startingMoney, int currentMoney){
+  public Menu(String title, LabeledButton startWaveButton, int startingMoney){
     this.title = title;
     this.startWaveButton = startWaveButton;
     this.startingMoney = startingMoney;
-    this.currentMoney = currentMoney;
+    this.currentMoney = startingMoney;
   }
 
   public String getTitle() {
@@ -54,6 +54,11 @@ class Menu{
     textAlign(CENTER);
     fill(0);
     text(getTitle(), 1500, 50);
+
+    textSize(18);
+    textAlign(CENTER);
+    fill(0);
+    text("Money:\n" + getCurrentMoney(), 1500, 80);
 
     startWaveButton.show();
   }
