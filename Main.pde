@@ -1,6 +1,8 @@
 int tileSize = 50;
 int rows = 28;
 int columns = 20;
+
+int wave = 1;
 boolean isWaveOn;
 
 Tile[][] tiles = new Tile[rows][columns];
@@ -49,10 +51,21 @@ public void setup(){
 
   setupGrid();
   
-  ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, 0, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, -200, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, -400, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5));
   
+}
+
+public ArrayList<Enemy> getCurrentWaveEnemies(){
+  switch (wave) {
+    case 1;
+      return ((Spawner)tiles[0][10]).enemies1;
+      break;
+    case 2:
+      return ((Spawner)tiles[0][10]).enemies2;
+      break;
+  }
 }
 
 public void waveLogic(){
@@ -60,12 +73,13 @@ public void waveLogic(){
     isWaveOn = true;
   }
 
-  if (((Spawner)tiles[0][10]).areAllEnemiesDead(((Spawner)tiles[0][10]).enemies)) {
+  if (((Spawner)tiles[0][10]).areAllEnemiesDead(getCurrentWaveEnemies())) {
     isWaveOn = false;
+    wave += 1;
   }
 
   if(isWaveOn){
-    ((Spawner)tiles[0][10]).showEnemies();
+    ((Spawner)tiles[0][10]).showEnemies(getCurrentWaveEnemies());
   }
 }
 

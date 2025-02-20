@@ -2,21 +2,24 @@ import java.util.ArrayList;
 
 class Spawner extends Tile{
  
-  ArrayList<Enemy> enemies;
+  ArrayList<Enemy> enemies1;
+  ArrayList<Enemy> enemies2;
   
   public Spawner(){
     super();
-    this.enemies = new ArrayList<Enemy>();
+    this.enemies1 = new ArrayList<Enemy>();
+    this.enemies2 = new ArrayList<Enemy>();
   }
   
   public Spawner(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor){
     super(width, height, x, y, buttonColor, pressedColor, highlightColor);
-    this.enemies = new ArrayList<Enemy>();
+    this.enemies1 = new ArrayList<Enemy>();
+    this.enemies2 = new ArrayList<Enemy>();
   }
   
-  public void showEnemies(){
-    for(int i = 0; i < enemies.size(); i++){
-      enemies.get(i).show();  
+  public void showEnemies(ArrayList<Enemy> enemiesList){
+    for(int i = 0; i < enemiesList.size(); i++){
+      enemiesList.get(i).show();  
     }
   }
 
@@ -39,8 +42,8 @@ class Spawner extends Tile{
     rect(x, y, width, height);
   }
   
-  public void addEnemies(Enemy enemy){
-    enemies.add(enemy);
+  public void addEnemies(ArrayList<Enemy> enemiesList, Enemy enemy){
+    enemiesList.add(enemy);
   }
   
 }
