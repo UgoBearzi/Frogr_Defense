@@ -25,12 +25,13 @@ class LabeledButton extends Button{
     buttonStatus();
     changeColor();
     
-    textSize(12);
-    textAlign(CENTER);
-    fill(0);
-    text(getLabel(), x+width/2, y+height/2);
     fill(currentColor);
     rect(x, y, width, height);
+
+    textSize(12);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text(getLabel(), x+width/2, y+height/2);
   }
 
 }
