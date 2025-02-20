@@ -1,19 +1,93 @@
 abstract class Enemy{
-  int x, y, enemySize;
-  int speed;
-  int damage;
-  int health;
-  Direction movementDirection;
+  protected int x, y, enemySize;
+  protected int speed;
+  protected int damage;
+  protected int health;
+  protected int reward;
+  protected Direction movementDirection;
   
   public Enemy(){
-    this.enemySize = 30;
+    this.enemySize = 0;
     this.x = 0;
     this.y = 0;
-    this.speed = 1;
-    this.damage = 1;
-    this.health = 5;
+    this.speed = 0;
+    this.damage = 0;
+    this.health = 0;
+    this.reward = 0;
     this.movementDirection = Direction.RIGHT;
   }
+  
+  public Enemy(int enemySize, int x, int y, int speed, int damage, int health, int reward){
+    this.enemySize = enemySize;
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.damage = damage;
+    this.health = health;
+    this.reward = reward;
+    this.movementDirection = Direction.RIGHT;
+  }
+
+  public int getEnemySize(){
+    return enemySize;
+  }
+
+  public void setEnemySize(int enemySize){
+    this.enemySize = enemySize;
+  }
+
+  public int getX(){
+    return x;
+  }
+
+  public void setX(int x){
+    this.x = x;
+  }
+
+  public int getY(){
+    return y;
+  }
+
+  public void setY(int y){
+    this.y = y;
+  }
+
+  public int getSpeed(){
+    return speed;
+  }
+
+  public void setSpeed(int speed){
+    this.speed = speed;
+  }
+
+  public int getDamage(){
+    return damage;
+  }
+
+  public void setDamage(int damage){
+    this.damage = damage;
+  }
+
+  public int getHealth(){
+    return health;
+  }
+
+  public void setHealth(int health){
+    this.health = health;
+  }
+
+  public int getReward(){
+    return reward;
+  }
+
+  public void setReward(int reward){
+    this.reward = reward;
+  }
+
+  public Direction getMovementDirection(){
+    return movementDirection;
+  }
+  
   public void setMovementDirection(Direction direction){
     this.movementDirection = direction;
   }
@@ -44,7 +118,5 @@ abstract class Enemy{
   public boolean checkIfDead(){
     return health <= 0;
   }
-  
-  public abstract void death();
 
 }

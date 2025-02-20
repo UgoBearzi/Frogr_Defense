@@ -51,13 +51,13 @@ public void setup(){
 
   setupGrid();
   
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5, 50));
 
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5, 50));
   
 }
 
@@ -72,7 +72,7 @@ public ArrayList<Enemy> getCurrentWaveEnemies(){
   }
 }
 
-public void waveLogic(){
+public void waveManager(){
   if(menu.getStartWaveButton().getIsPressed()){
     isWaveOn = true;
   }
@@ -85,6 +85,16 @@ public void waveLogic(){
   if(isWaveOn){
     ((Spawner)tiles[0][10]).showEnemies(getCurrentWaveEnemies());
   }
+}
+
+public void moneyManager(){
+  for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
+    if(getCurrentWaveEnemies().get(i).checkIfDead()){
+      menu.setCurrentMoney(menu.getCurrentMoney() + getCurrentWaveEnemies().get(i).getReward());
+      getCurrentWaveEnemies().get(i).setReward(0);
+    }  
+  }
+
 }
 
 public void draw(){
@@ -116,5 +126,6 @@ public void draw(){
     }
   }
 
-  waveLogic();
+  waveManager();
+  moneyManager();
 }
