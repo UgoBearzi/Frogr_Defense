@@ -1,12 +1,16 @@
 int tileSize = 50;
 int rows = 28;
 int columns = 20;
+boolean isWaveOn;
+
 Tile[][] tiles = new Tile[rows][columns];
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
-Menu menu = new Menu("Frogr defense", new LabeledButton(), 0, 0);
 
-public void setup(){
-  size(1600, 1000);
+
+LabeledButton startWave = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
+Menu menu = new Menu("Frogr defense", startWave, 0, 0);
+
+public void setupGrid(){
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){
       tiles[i][j] = new Tile(tileSize, tileSize, (i*tileSize), (j*tileSize), color(40, 168, 64), color(74, 237, 105), color(28, 117, 45));
@@ -36,11 +40,33 @@ public void setup(){
   }
   
   tiles[27][9] = new Tower(tileSize, tileSize, 27*tileSize, 9*tileSize, color(40, 168, 64), color(74, 237, 105), color(28, 117, 45), 5);
+}
+
+public void setup(){
+  size(1600, 1000);
+
+  isWaveOn = false;
+
+  setupGrid();
   
   ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, 0, 500, 1, 1, 5));
   ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, -200, 500, 1, 1, 5));
   ((Spawner)tiles[0][10]).addEnemies(new FlyEnemy(30, -400, 500, 1, 1, 5));
   
+}
+
+public void waveLogic(){
+  if(menu.getStartWaveButton().getIsPressed()){
+    isWaveOn = true;
+  }
+
+  if (((Spawner)tiles[0][10]).areAllEnemiesDead(((Spawner)tiles[0][10]).enemies)) {
+    isWaveOn = false;
+  }
+
+  if(isWaveOn){
+    ((Spawner)tiles[0][10]).showEnemies();
+  }
 }
 
 public void draw(){
@@ -53,22 +79,24 @@ public void draw(){
       tiles[i][j].show();
     }
   }
-  
+
   tiles[0][10].show();
   
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){
       if(tiles[i][j] instanceof Road && tiles[0][10] instanceof Spawner){
-        for(int l = 0; l < ((Spawner)tiles[0][10]).spawnedEnemies.size(); l++){
-          ((Road)tiles[i][j]).changeEnemyDirection(((Spawner)tiles[0][10]).spawnedEnemies.get(l));
+        for(int l = 0; l < ((Spawner)tiles[0][10]).enemies.size(); l++){
+          ((Road)tiles[i][j]).changeEnemyDirection(((Spawner)tiles[0][10]).enemies.get(l));
         }
       }
     }
   }
   
-  for(int i = 0; i < ((Spawner)tiles[0][10]).spawnedEnemies.size(); i++){
+  for(int i = 0; i < ((Spawner)tiles[0][10]).enemies.size(); i++){
     if(tiles[27][9] instanceof Tower && tiles[0][10] instanceof Spawner){
-      ((Tower)tiles[27][9]).takeDamage(((Spawner)tiles[0][10]).spawnedEnemies.get(i));
+      ((Tower)tiles[27][9]).takeDamage(((Spawner)tiles[0][10]).enemies.get(i));
     }
   }
+
+  waveLogic();
 }

@@ -2,55 +2,45 @@ import java.util.ArrayList;
 
 class Spawner extends Tile{
  
-  int spawnLocationX;
-  int spawnLocationY;
-  ArrayList<Enemy> spawnedEnemies;
+  ArrayList<Enemy> enemies;
   
   public Spawner(){
-    this.width = 50;
-    this.height = 50;
-    this.x = 0;
-    this.y = 0;
-    this.buttonColor = color(250, 162, 162);
-    this.pressedColor = color(184, 123, 123);
-    this.highlightColor = color(209, 0, 0);
-    this.currentColor = buttonColor;
-    this.spawnLocationX = x+ width/2;
-    this.spawnLocationY = y + height/2;
-    this.spawnedEnemies = new ArrayList<Enemy>();
+    super();
+    this.enemies = new ArrayList<Enemy>();
   }
   
-  public Spawner(int x, int y){
-    this.width = 50;
-    this.height = 50;
-    this.x = x;
-    this.y = y;
-    this.buttonColor = color(250, 162, 162);
-    this.pressedColor = color(184, 123, 123);
-    this.highlightColor = color(209, 0, 0);
-    this.currentColor = buttonColor;
-    this.spawnLocationX = x+ width/2;
-    this.spawnLocationY = y + height/2;
-    this.spawnedEnemies = new ArrayList<Enemy>();
+  public Spawner(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor){
+    super(width, height, x, y, buttonColor, pressedColor, highlightColor);
+    this.enemies = new ArrayList<Enemy>();
   }
   
   public void showEnemies(){
-    for(int i = 0; i < spawnedEnemies.size(); i++){
-      spawnedEnemies.get(i).show();  
+    for(int i = 0; i < enemies.size(); i++){
+      enemies.get(i).show();  
     }
+  }
+
+  public boolean areAllEnemiesDead(ArrayList<Enemy> enemiesList){
+    boolean areAllDead = true;
+    for(int i = 0; i < enemiesList.size(); i++){
+      if(!enemiesList.get(i).checkIfDead()){
+        areAllDead = false;
+      }
+    }
+
+    return areAllDead;
   }
 
   public void show(){
     buttonStatus();
     changeColor();
-    showEnemies();
     
     fill(currentColor);
     rect(x, y, width, height);
   }
   
   public void addEnemies(Enemy enemy){
-    spawnedEnemies.add(enemy);
+    enemies.add(enemy);
   }
   
 }
