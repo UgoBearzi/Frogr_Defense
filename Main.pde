@@ -54,17 +54,21 @@ public void setup(){
   ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5));
   ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5));
   ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5));
+
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5));
   
 }
 
 public ArrayList<Enemy> getCurrentWaveEnemies(){
   switch (wave) {
-    case 1;
+    case 1:
       return ((Spawner)tiles[0][10]).enemies1;
-      break;
     case 2:
       return ((Spawner)tiles[0][10]).enemies2;
-      break;
+    default :
+      return ((Spawner)tiles[0][10]).enemies1;
   }
 }
 
@@ -99,16 +103,16 @@ public void draw(){
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){
       if(tiles[i][j] instanceof Road && tiles[0][10] instanceof Spawner){
-        for(int l = 0; l < ((Spawner)tiles[0][10]).enemies.size(); l++){
-          ((Road)tiles[i][j]).changeEnemyDirection(((Spawner)tiles[0][10]).enemies.get(l));
+        for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
+          ((Road)tiles[i][j]).changeEnemyDirection(getCurrentWaveEnemies().get(l));
         }
       }
     }
   }
   
-  for(int i = 0; i < ((Spawner)tiles[0][10]).enemies.size(); i++){
+  for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
     if(tiles[27][9] instanceof Tower && tiles[0][10] instanceof Spawner){
-      ((Tower)tiles[27][9]).takeDamage(((Spawner)tiles[0][10]).enemies.get(i));
+      ((Tower)tiles[27][9]).takeDamage(getCurrentWaveEnemies().get(i));
     }
   }
 
