@@ -4,6 +4,7 @@ class LabeledButton extends Button{
   
   public LabeledButton(){
     super();
+    this.label = "";
   }
 
   public LabeledButton(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, String label){
@@ -31,3 +32,5 @@ class LabeledButton extends Button{
     fill(currentColor);
     rect(x, y, width, height);
   }
+
+}

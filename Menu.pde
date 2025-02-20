@@ -50,10 +50,10 @@ class Menu{
   }
 
   public void show(){
-    textSize(12);
+    textSize(24);
     textAlign(CENTER);
     fill(0);
-    text(getTitle(), 1500, 100);
+    text(getTitle(), 1500, 50);
 
     startWaveButton.show();
   }
