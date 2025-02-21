@@ -1,5 +1,5 @@
 class Tile extends Button{
-  
+
   public Tile(){
     super();
   }

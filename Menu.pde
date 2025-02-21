@@ -1,20 +1,24 @@
 class Menu{
   String title, currentMoneyString;
-  LabeledButton startWaveButton;
-  int startingMoney, currentMoney;
+  LabeledButton startWaveButton, turretButton1;
+  int startingMoney, currentMoney, turret1Cost;
   
   public Menu(){
     this.title = "";
     this.startWaveButton = new LabeledButton();
+    this.turretButton1 = new LabeledButton();
     this.startingMoney = 0;
     this.currentMoney = startingMoney;
+    this.turret1Cost = 0;
   }
 
-  public Menu(String title, LabeledButton startWaveButton, int startingMoney){
+  public Menu(String title, LabeledButton startWaveButton, LabeledButton turretButton1, int startingMoney, int turret1Cost){
     this.title = title;
     this.startWaveButton = startWaveButton;
+    this.turretButton1 = turretButton1;
     this.startingMoney = startingMoney;
     this.currentMoney = startingMoney;
+    this.turret1Cost = turret1Cost;
   }
 
   public String getTitle() {
@@ -33,6 +37,14 @@ class Menu{
     this.startWaveButton = startWaveButton;
   }
 
+  public LabeledButton getTurretButton1() {
+    return turretButton1;
+  }
+
+  public void setTurretButton1(LabeledButton turretButton1) {
+    this.turretButton1 = turretButton1;
+  }
+
   public int getStartingMoney() {
     return startingMoney;
   }
@@ -49,6 +61,14 @@ class Menu{
     this.currentMoney = currentMoney;
   }
 
+  public int getTurret1Cost() {
+    return turret1Cost;
+  }
+
+  public void setTurret1Cost(int turret1Cost) {
+    this.turret1Cost = turret1Cost;
+  }
+
   public void show(){
     textSize(24);
     textAlign(CENTER);
@@ -61,6 +81,7 @@ class Menu{
     text("Money:\n" + getCurrentMoney(), 1500, 80);
 
     startWaveButton.show();
+    turretButton.show();
   }
   
   

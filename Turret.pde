@@ -1,11 +1,10 @@
-long startTimeBullet = System.currentTimeMillis();
-long timeBetweenShots = 500;
-
 class Turret extends Tile{
   int bulletX;
   int bulletY;
   int bulletSize, bulletDamage;
   int cost, range;
+  long startTimeBullet;
+  long timeBetweenShots;
 
   public Turret(){
     super();
@@ -15,9 +14,11 @@ class Turret extends Tile{
     this.bulletDamage = 0;
     this.cost = 0;
     this.range = 0;
+    this.startTimeBullet = System.currentTimeMillis();
+    this.timeBetweenShots = 0;
   }
   
-  public Turret(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int bulletSize, int bulletDamage, int cost, int range){
+  public Turret(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int bulletSize, int bulletDamage, int cost, int range, long timeBetweenShots){
     super(width, height, x, y, buttonColor, pressedColor, highlightColor);
     this.bulletX = x + width/2;
     this.bulletY = y + width/2;
@@ -25,6 +26,12 @@ class Turret extends Tile{
     this.bulletDamage = bulletDamage;
     this.cost = cost;
     this.range = range;
+    this.startTimeBullet = System.currentTimeMillis();
+    this.timeBetweenShots = timeBetweenShots;
+  }
+
+  public int getCost(){
+    return cost;
   }
 
   public void resetStartTimeBullet(){
@@ -62,7 +69,6 @@ class Turret extends Tile{
         bulletY = y + width/2;
         resetStartTimeBullet();
     }
-    
   }
 
   public void show(){

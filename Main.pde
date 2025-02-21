@@ -4,13 +4,14 @@ int columns = 20;
 
 int wave = 1;
 boolean isWaveOn;
+boolean hasGrabbedTurret;
 
 Tile[][] tiles = new Tile[rows][columns];
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
 
-
 LabeledButton waveButton = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
-Menu menu = new Menu("Frogr defense", waveButton, 100);
+LabeledButton turretButton = new LabeledButton(50,50, 1425, 150, color(0, 222, 85), color(0, 153, 59), color(38, 255, 122), "Frogr");
+Menu menu = new Menu("Frogr defense", waveButton, turretButton, 100, 100);
 
 public void setupGrid(){
 
@@ -43,14 +44,13 @@ public void setupGrid(){
   }
   
   tiles[27][9] = new Tower(tileSize, tileSize, 27*tileSize, 9*tileSize, color(40, 168, 64), color(74, 237, 105), color(28, 117, 45), 5);
-
-  tiles[6][11] = new Turret(50,50,6*tileSize,11*tileSize, color(100), color(50), color(150), 10, 2, 100, 230);
 }
 
 public void setup(){
   size(1600, 1000);
 
   isWaveOn = false;
+  hasGrabbedTurret = false;
 
   setupGrid();
   
@@ -90,7 +90,7 @@ public void waveManager(){
   }
 }
 
-public void moneyManager(){
+public void rewardManager(){
   for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
     if(getCurrentWaveEnemies().get(i).checkIfDead()){
       menu.setCurrentMoney(menu.getCurrentMoney() + getCurrentWaveEnemies().get(i).getReward());
@@ -100,21 +100,41 @@ public void moneyManager(){
 
 }
 
+public void buyTurret(){
+  if(menu.getTurretButton1().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret1Cost()){
+    hasGrabbedTurret = true;
+  }
+
+  if(hasGrabbedTurret){
+    fill(100,100,100,50);
+    ellipse(mouseX, mouseY, 230, 230);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < columns; j++){
+        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road && tiles[i][j] instanceof Spawner && tiles[i][j] instanceof Tower)){
+          tiles[i][j] = new Turret(50,50,i*tileSize,j*tileSize, color(100), color(50), color(150), 10, 2, 100, 230, 500);
+          menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret1Cost());
+          hasGrabbedTurret = false;
+        }
+      }
+    }
+  }
+}
+
 public void draw(){
   background(190);
   
   menu.show();
   
-  for(int i = 0; i < rows; i++){
-    for(int j = 0; j < columns; j++){
-      tiles[i][j].show();
-    }
-  }
-
-  tiles[0][10].show();
   
+
   for(int i = 0; i < rows; i++){
-    for(int j = 0; j < columns; j++){
+    for(int j = 0; j < columns; j++){   
+      if(tiles[i][j] instanceof Turret){
+        for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
+          ((Turret)tiles[i][j]).moveBullet(getCurrentWaveEnemies().get(l));
+        }
+      }
+
       if(tiles[i][j] instanceof Road && tiles[0][10] instanceof Spawner){
         for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
           ((Road)tiles[i][j]).changeEnemyDirection(getCurrentWaveEnemies().get(l));
@@ -122,7 +142,7 @@ public void draw(){
       }
     }
   }
-  
+
   for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
     if(tiles[27][9] instanceof Tower){
       ((Tower)tiles[27][9]).takeDamage(getCurrentWaveEnemies().get(i));
@@ -131,17 +151,13 @@ public void draw(){
 
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){
-      if(tiles[i][j] instanceof Turret){
-        for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
-          ((Turret)tiles[i][j]).moveBullet(getCurrentWaveEnemies().get(l));
-        }
-      }
+      tiles[i][j].show();
     }
   }
 
-  tiles[6][11].show();
+  tiles[0][10].show();
 
-
+  buyTurret();
   waveManager();
-  moneyManager();
+  rewardManager();
 }

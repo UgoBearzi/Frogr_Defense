@@ -21,6 +21,11 @@ class Tower extends Tile{
     
     fill(currentColor);
     rect(x, y, width, height);
+
+    textSize(20);
+    textAlign(CENTER);
+    fill(0);
+    text("HP: " + health, x+ width/2, y-10);
     
     if(!isDead){
       fill(255, 228, 153);
