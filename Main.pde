@@ -19,8 +19,6 @@ public void setupGrid(){
       tiles[i][j] = new Tile(tileSize, tileSize, (i*tileSize), (j*tileSize), color(40, 168, 64), color(74, 237, 105), color(28, 117, 45));
     }
   }
-
-  tiles[6][11] = new Turret(50,50,6*tileSize,11*tileSize, color(100), color(50), color(150), 5, 1, 100, 200);
   
   for(int i = 0; i < 10; i++){
     tiles[i][10] = new Road(tileSize, tileSize, (i*tileSize), (10*tileSize), color(255, 235, 153), color(156, 90, 90), color(247, 148, 148), Direction.RIGHT);
@@ -45,6 +43,8 @@ public void setupGrid(){
   }
   
   tiles[27][9] = new Tower(tileSize, tileSize, 27*tileSize, 9*tileSize, color(40, 168, 64), color(74, 237, 105), color(28, 117, 45), 5);
+
+  tiles[6][11] = new Turret(50,50,6*tileSize,11*tileSize, color(100), color(50), color(150), 10, 2, 100, 230);
 }
 
 public void setup(){
@@ -138,6 +138,8 @@ public void draw(){
       }
     }
   }
+
+  tiles[6][11].show();
 
 
   waveManager();

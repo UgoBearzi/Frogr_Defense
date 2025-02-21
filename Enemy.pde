@@ -4,6 +4,7 @@ abstract class Enemy{
   protected int damage;
   protected int health;
   protected int reward;
+  protected boolean isVisible;
   protected Direction movementDirection;
   
   public Enemy(){
@@ -14,6 +15,7 @@ abstract class Enemy{
     this.damage = 0;
     this.health = 0;
     this.reward = 0;
+    this.isVisible = false;
     this.movementDirection = Direction.RIGHT;
   }
   
@@ -25,6 +27,7 @@ abstract class Enemy{
     this.damage = damage;
     this.health = health;
     this.reward = reward;
+    this.isVisible = false;
     this.movementDirection = Direction.RIGHT;
   }
 
@@ -84,6 +87,14 @@ abstract class Enemy{
     this.reward = reward;
   }
 
+  public boolean getIsVisible(){
+    return isVisible;
+  }
+
+  public void setIsVisible(boolean isVisible){
+    this.isVisible = isVisible;
+  }
+
   public Direction getMovementDirection(){
     return movementDirection;
   }
@@ -91,7 +102,8 @@ abstract class Enemy{
   public void setMovementDirection(Direction direction){
     this.movementDirection = direction;
   }
-  
+
+
   public abstract void show();
   
   public void move(){

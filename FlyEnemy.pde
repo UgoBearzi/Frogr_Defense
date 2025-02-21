@@ -10,12 +10,15 @@ class FlyEnemy extends Enemy{
   
   public void show(){
     if(!checkIfDead()){
+      setIsVisible(true);
       fill(10);
       rect(x, y, enemySize, enemySize);
       fill(255);
       rect(x-enemySize/2, y-enemySize/2, enemySize/2, enemySize/2);
       rect(x+enemySize, y-enemySize/2, enemySize/2, enemySize/2);
       move();
+    }else{
+      setIsVisible(false);
     }
   }
   

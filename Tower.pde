@@ -35,7 +35,7 @@ class Tower extends Tile{
   }
   
   public void takeDamage(Enemy enemy){
-    if(isEnemyInside(enemy) && enemy.getHealth() > 0){
+    if(isEnemyInside(enemy) && enemy.getHealth() > 0 && enemy.getIsVisible()){
       health -= enemy.getDamage();
       enemy.takeDamage(100);
     }

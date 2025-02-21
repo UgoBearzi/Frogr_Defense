@@ -1,5 +1,7 @@
+long startTimeBullet = System.currentTimeMillis();
+long timeBetweenShots = 500;
+
 class Turret extends Tile{
-  
   int bulletX;
   int bulletY;
   int bulletSize, bulletDamage;
@@ -17,12 +19,20 @@ class Turret extends Tile{
   
   public Turret(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int bulletSize, int bulletDamage, int cost, int range){
     super(width, height, x, y, buttonColor, pressedColor, highlightColor);
-    this.bulletX = x;
-    this.bulletY = y;
+    this.bulletX = x + width/2;
+    this.bulletY = y + width/2;
     this.bulletSize = bulletSize;
     this.bulletDamage = bulletDamage;
     this.cost = cost;
     this.range = range;
+  }
+
+  public void resetStartTimeBullet(){
+    startTimeBullet = System.currentTimeMillis();
+  }
+
+  public boolean canFireNextShot(){
+    return System.currentTimeMillis() - startTimeBullet >= timeBetweenShots;
   }
 
   public boolean isEnemyInside(Enemy enemy){
@@ -30,7 +40,10 @@ class Turret extends Tile{
   }
 
   public boolean isBulletInsideEnemy(Enemy enemy){
-    return (bulletX >= enemy.getX() && bulletY >= enemy.getY() && (bulletX+bulletSize)<= (enemy.x + enemy.getEnemySize()) && (bulletY+bulletSize) <= (enemy.getY() + enemy.getEnemySize()));
+    return (bulletX >= enemy.getX() && bulletX <= enemy.getX() + enemy.getEnemySize() || 
+    enemy.getX() >= bulletX && enemy.getX() <= bulletX + bulletSize) && 
+    (bulletY > enemy.getY() && bulletY < enemy.getY() + enemy.getEnemySize() || 
+    enemy.getY() >= bulletY && enemy.getY() < bulletY + bulletSize);
   }
 
   public void moveBullet(Enemy enemy){
@@ -38,15 +51,16 @@ class Turret extends Tile{
     float deltaY = enemy.getY() - bulletY;
     float angle = (float)Math.atan2(deltaY, deltaX);
     
-    if(isEnemyInside(enemy)){
+    if(isEnemyInside(enemy) && enemy.getIsVisible() && canFireNextShot()){
         bulletX += 5 * Math.cos(angle);
         bulletY += 5 * Math.sin(angle);
     }
 
-    if(isBulletInsideEnemy(enemy)){
+    if(isBulletInsideEnemy(enemy) && enemy.getIsVisible()){
         enemy.setHealth(enemy.getHealth() - bulletDamage);
-        bulletX = x;
-        bulletY = y;
+        bulletX = x + width/2;
+        bulletY = y + width/2;
+        resetStartTimeBullet();
     }
     
   }
@@ -57,6 +71,10 @@ class Turret extends Tile{
     
     fill(currentColor);
     rect(x, y, width, height);
+
+    fill(100);
+    rect(bulletX, bulletY, bulletSize, bulletSize);
+
     fill(255);
     rect(x+width/4, y+height/2, width/2, height/4);
     fill(45, 191, 0);
@@ -67,8 +85,6 @@ class Turret extends Tile{
     rect(x+width/4, y+width/6, width/8, height/8);
     rect(x+width/2, y+width/6, width/8, height/8);
     
-    fill(100);
-    rect(bulletX, bulletY, bulletSize, bulletSize);
 
   }
   

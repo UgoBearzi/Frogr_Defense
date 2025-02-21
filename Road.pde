@@ -32,7 +32,7 @@ class Road extends Tile{
   }
   
   public void changeEnemyDirection(Enemy enemy){
-    if(isEnemyInside(enemy)){
+    if(isEnemyInside(enemy) && enemy.getIsVisible()){
       enemy.setMovementDirection(nextDirection);
     }
   }
