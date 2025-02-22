@@ -4,14 +4,21 @@ int columns = 20;
 
 int wave = 1;
 boolean isWaveOn;
-boolean hasGrabbedTurret;
+boolean hasGrabbedTurret1;
+boolean hasGrabbedTurret2;
 
 Tile[][] tiles = new Tile[rows][columns];
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
 
 LabeledButton waveButton = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
-LabeledButton turretButton = new LabeledButton(50,50, 1425, 150, color(0, 222, 85), color(0, 153, 59), color(38, 255, 122), "Frogr");
-Menu menu = new Menu("Frogr defense", waveButton, turretButton, 100, 100);
+
+Turret turretFrogr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 10, 3, 5, 230, 500, color(14, 166, 0));
+LabeledButton turretButton1 = new LabeledButton(50,50, 1425, 150, color(0, 222, 85), color(0, 153, 59), color(38, 255, 122), "Frogr");
+
+Turret turretSprogr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 7, 1, 10, 170, 100, color(255, 222, 51));
+LabeledButton turretButton2 = new LabeledButton(50,50, 1525, 150, color(255, 213, 0), color(219, 183, 0), color(255, 229, 94), "Sporgr");
+
+Menu menu = new Menu("Frogr defense", waveButton, 200, turretFrogr, turretSprogr, turretButton1, turretButton2, 100, 200);
 
 public void setupGrid(){
 
@@ -46,21 +53,28 @@ public void setupGrid(){
   tiles[27][9] = new Tower(tileSize, tileSize, 27*tileSize, 9*tileSize, color(40, 168, 64), color(74, 237, 105), color(28, 117, 45), 5);
 }
 
+public void setupEnemies(){
+  // Wave 1
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5, 50));
+  // Wave 2
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5, 50));
+}
+
 public void setup(){
   size(1600, 1000);
 
   isWaveOn = false;
-  hasGrabbedTurret = false;
+  hasGrabbedTurret1 = false;
+  hasGrabbedTurret2 = false;
 
   setupGrid();
   
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5, 50));
-
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5, 50));
+  setupEnemies();
+  
   
 }
 
@@ -102,18 +116,38 @@ public void rewardManager(){
 
 public void buyTurret(){
   if(menu.getTurretButton1().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret1Cost()){
-    hasGrabbedTurret = true;
+    hasGrabbedTurret1 = true;
+    hasGrabbedTurret2 = false;
   }
 
-  if(hasGrabbedTurret){
+  if(hasGrabbedTurret1){
     fill(100,100,100,50);
-    ellipse(mouseX, mouseY, 230, 230);
+    ellipse(mouseX, mouseY, menu.getTurret1().range, menu.getTurret1().range);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < columns; j++){
-        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road && tiles[i][j] instanceof Spawner && tiles[i][j] instanceof Tower)){
-          tiles[i][j] = new Turret(50,50,i*tileSize,j*tileSize, color(100), color(50), color(150), 10, 2, 100, 230, 500);
+        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
+          tiles[i][j] = menu.getTurret1InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret1Cost());
-          hasGrabbedTurret = false;
+          hasGrabbedTurret1 = false;
+        }
+      }
+    }
+  }
+
+  if(menu.getTurretButton2().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret2Cost()){
+    hasGrabbedTurret2 = true;
+    hasGrabbedTurret1 = false;
+  }
+
+  if(hasGrabbedTurret2){
+    fill(100,100,100,50);
+    ellipse(mouseX, mouseY, menu.getTurret2().range, menu.getTurret2().range);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < columns; j++){
+        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
+          tiles[i][j] = menu.getTurret2InGrid(i,j,tileSize);
+          menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret2Cost());
+          hasGrabbedTurret2 = false;
         }
       }
     }

@@ -1,10 +1,11 @@
 class Turret extends Tile{
   int bulletX;
   int bulletY;
-  int bulletSize, bulletDamage;
+  int bulletSize, bulletDamage, bulletSpeed;
   int cost, range;
   long startTimeBullet;
   long timeBetweenShots;
+  color turretColor;
 
   public Turret(){
     super();
@@ -12,26 +13,24 @@ class Turret extends Tile{
     this.bulletY = 0;
     this.bulletSize = 0;
     this.bulletDamage = 0;
-    this.cost = 0;
+    this.bulletSpeed = 0;
     this.range = 0;
     this.startTimeBullet = System.currentTimeMillis();
     this.timeBetweenShots = 0;
+    this.turretColor = color(0);
   }
   
-  public Turret(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int bulletSize, int bulletDamage, int cost, int range, long timeBetweenShots){
+  public Turret(int width, int height, int x, int y, color buttonColor, color pressedColor, color highlightColor, int bulletSize, int bulletDamage, int bulletSpeed, int range, long timeBetweenShots, color turretColor){
     super(width, height, x, y, buttonColor, pressedColor, highlightColor);
     this.bulletX = x + width/2;
     this.bulletY = y + width/2;
     this.bulletSize = bulletSize;
     this.bulletDamage = bulletDamage;
-    this.cost = cost;
+    this.bulletSpeed = bulletSpeed;
     this.range = range;
     this.startTimeBullet = System.currentTimeMillis();
     this.timeBetweenShots = timeBetweenShots;
-  }
-
-  public int getCost(){
-    return cost;
+    this.turretColor = turretColor;
   }
 
   public void resetStartTimeBullet(){
@@ -59,8 +58,8 @@ class Turret extends Tile{
     float angle = (float)Math.atan2(deltaY, deltaX);
     
     if(isEnemyInside(enemy) && enemy.getIsVisible() && canFireNextShot()){
-        bulletX += 5 * Math.cos(angle);
-        bulletY += 5 * Math.sin(angle);
+        bulletX += bulletSpeed * Math.cos(angle);
+        bulletY += bulletSpeed * Math.sin(angle);
     }
 
     if(isBulletInsideEnemy(enemy) && enemy.getIsVisible()){
@@ -83,7 +82,7 @@ class Turret extends Tile{
 
     fill(255);
     rect(x+width/4, y+height/2, width/2, height/4);
-    fill(45, 191, 0);
+    fill(turretColor);
     rect(x+width/4, y+height/4, width/2, height/4);
     rect(x+width/4, y+width/6, width/6, height/6);
     rect(x+width/2, y+width/6, width/6, height/6);
