@@ -6,6 +6,8 @@ int wave = 1;
 boolean isWaveOn;
 boolean hasGrabbedTurret1;
 boolean hasGrabbedTurret2;
+boolean hasGrabbedTurret3;
+boolean hasGrabbedTurret4;
 
 Tile[][] tiles = new Tile[rows][columns];
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
@@ -18,7 +20,14 @@ LabeledButton turretButton1 = new LabeledButton(50,50, 1425, 150, color(0, 222, 
 Turret turretSprogr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 7, 1, 10, 170, 100, color(255, 222, 51));
 LabeledButton turretButton2 = new LabeledButton(50,50, 1525, 150, color(255, 213, 0), color(219, 183, 0), color(255, 229, 94), "Sporgr");
 
-Menu menu = new Menu("Frogr defense", waveButton, 200, turretFrogr, turretSprogr, turretButton1, turretButton2, 100, 200);
+Turret turretGrorg = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 15, 6, 2, 100, 1000, color(245, 44, 44));
+LabeledButton turretButton3 = new LabeledButton(50,50, 1425, 200, color(245, 44, 44), color(179, 36, 36), color(255, 94, 94), "Grorg");
+
+Turret turretTorgr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 10, 6, 10, 500, 1500, color(76, 4, 201));
+LabeledButton turretButton4 = new LabeledButton(50,50, 1525, 200, color(76, 4, 201), color(37, 0, 102), color(121, 51, 242), "Torgr");
+
+Menu menu = new Menu("Frogr defense", waveButton, 2000, turretFrogr, turretSprogr, turretGrorg, turretTorgr, 
+turretButton1, turretButton2, turretButton3, turretButton4, 100, 150, 250, 350);
 
 public void setupGrid(){
 
@@ -70,6 +79,8 @@ public void setup(){
   isWaveOn = false;
   hasGrabbedTurret1 = false;
   hasGrabbedTurret2 = false;
+  hasGrabbedTurret3 = false;
+  hasGrabbedTurret4 = false;
 
   setupGrid();
   
@@ -89,6 +100,16 @@ public ArrayList<Enemy> getCurrentWaveEnemies(){
   }
 }
 
+public void showVictory(){
+  fill(0, 255, 0, 25);
+  rect(0,0, 1600, 1000);
+
+  textSize(48);
+  textAlign(CENTER, CENTER);
+  fill(255);
+  text("YOU WON!", 800, 500);
+}
+
 public void waveManager(){
   if(menu.getStartWaveButton().getIsPressed()){
     isWaveOn = true;
@@ -101,6 +122,10 @@ public void waveManager(){
 
   if(isWaveOn){
     ((Spawner)tiles[0][10]).showEnemies(getCurrentWaveEnemies());
+  }
+
+  if(wave = 5){
+    showVictory();
   }
 }
 
@@ -118,6 +143,8 @@ public void buyTurret(){
   if(menu.getTurretButton1().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret1Cost()){
     hasGrabbedTurret1 = true;
     hasGrabbedTurret2 = false;
+    hasGrabbedTurret3 = false;
+    hasGrabbedTurret4 = false;
   }
 
   if(hasGrabbedTurret1){
@@ -137,6 +164,8 @@ public void buyTurret(){
   if(menu.getTurretButton2().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret2Cost()){
     hasGrabbedTurret2 = true;
     hasGrabbedTurret1 = false;
+    hasGrabbedTurret3 = false;
+    hasGrabbedTurret4 = false;
   }
 
   if(hasGrabbedTurret2){
@@ -148,6 +177,48 @@ public void buyTurret(){
           tiles[i][j] = menu.getTurret2InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret2Cost());
           hasGrabbedTurret2 = false;
+        }
+      }
+    }
+  }
+
+  if(menu.getTurretButton3().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret3Cost()){
+    hasGrabbedTurret3 = true;
+    hasGrabbedTurret1 = false;
+    hasGrabbedTurret2 = false;
+    hasGrabbedTurret4 = false;
+  }
+
+  if(hasGrabbedTurret3){
+    fill(100,100,100,50);
+    ellipse(mouseX, mouseY, menu.getTurret3().range, menu.getTurret3().range);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < columns; j++){
+        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
+          tiles[i][j] = menu.getTurret3InGrid(i,j,tileSize);
+          menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret3Cost());
+          hasGrabbedTurret3 = false;
+        }
+      }
+    }
+  }
+
+  if(menu.getTurretButton4().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret4Cost()){
+    hasGrabbedTurret4 = true;
+    hasGrabbedTurret1 = false;
+    hasGrabbedTurret2 = false;
+    hasGrabbedTurret3 = false;
+  }
+
+  if(hasGrabbedTurret4){
+    fill(100,100,100,50);
+    ellipse(mouseX, mouseY, menu.getTurret4().range, menu.getTurret4().range);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < columns; j++){
+        if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
+          tiles[i][j] = menu.getTurret4InGrid(i,j,tileSize);
+          menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret4Cost());
+          hasGrabbedTurret4 = false;
         }
       }
     }
