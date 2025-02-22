@@ -1,4 +1,4 @@
-abstract class Enemy{
+public class Enemy{
   protected int x, y, enemySize;
   protected int speed;
   protected int damage;
@@ -6,6 +6,7 @@ abstract class Enemy{
   protected int reward;
   protected boolean isVisible;
   protected Direction movementDirection;
+  protected color enemyColor;
   
   public Enemy(){
     this.enemySize = 0;
@@ -17,9 +18,10 @@ abstract class Enemy{
     this.reward = 0;
     this.isVisible = false;
     this.movementDirection = Direction.RIGHT;
+    this.enemyColor = color(0);
   }
   
-  public Enemy(int enemySize, int x, int y, int speed, int damage, int health, int reward){
+  public Enemy(int enemySize, int x, int y, int speed, int damage, int health, int reward, color enemyColor){
     this.enemySize = enemySize;
     this.x = x;
     this.y = y;
@@ -29,6 +31,7 @@ abstract class Enemy{
     this.reward = reward;
     this.isVisible = false;
     this.movementDirection = Direction.RIGHT;
+    this.enemyColor = enemyColor;
   }
 
   public int getEnemySize(){
@@ -102,33 +105,45 @@ abstract class Enemy{
   public void setMovementDirection(Direction direction){
     this.movementDirection = direction;
   }
-
-
-  public abstract void show();
   
   public void move(){
     switch(movementDirection){
       case UP:
-        y -= speed;
+        y -= getSpeed();
         break;
       case RIGHT:
-        x += speed;
+        x += getSpeed();
         break;
       case LEFT:
-        x -= speed;
+        x -= getSpeed();
         break;
       case DOWN:
-        y += speed;
+        y += getSpeed();
         break;
     }
   }
-  
+
+  //for some reason it dosent work if i use setHealth(extenalDamage)
   public void takeDamage(int externalDamage){
     health -= externalDamage;
   }
   
   public boolean checkIfDead(){
-    return health <= 0;
+    return getHealth() <= 0;
+  }
+
+  public void show(){   
+    if(!checkIfDead()){
+      setIsVisible(true);
+      fill(enemyColor);
+      rect(getX(), getY(), getEnemySize(), getEnemySize());
+      fill(255);
+      rect(getX()-getEnemySize()/2, getY()-getEnemySize()/2, getEnemySize()/2, getEnemySize()/2);
+      rect(getX()+getEnemySize(), getY()-getEnemySize()/2, getEnemySize()/2, getEnemySize()/2);
+      move();
+    }else{
+      setIsVisible(false);
+    }
   }
 
 }

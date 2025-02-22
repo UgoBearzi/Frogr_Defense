@@ -55,13 +55,13 @@ public void setupGrid(){
 
 public void setupEnemies(){
   // Wave 1
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, 0, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -200, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new FlyEnemy(30, -400, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, 0, 500, 1, 1, 5, 50, color(0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, -200, 500, 1, 1, 5, 50, color(0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, -400, 500, 1, 1, 5, 50, color(0)));
   // Wave 2
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, 0, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -200, 500, 1, 1, 5, 50));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new FlyEnemy(40, -400, 500, 1, 1, 5, 50));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, 0, 500, 1, 1, 5, 50, color(0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, -200, 500, 1, 1, 5, 50, color(0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, -400, 500, 1, 1, 5, 50, color(0)));
 }
 
 public void setup(){
@@ -154,6 +154,18 @@ public void buyTurret(){
   }
 }
 
+public void showGameOver(){
+  if(((Tower)tiles[27][9]).health <= 0){
+    fill(255, 0, 0, 25);
+    rect(0,0, 1600, 1000);
+
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("GAME OVER", 800, 500);
+  }
+}
+
 public void draw(){
   background(190);
   
@@ -194,4 +206,5 @@ public void draw(){
   buyTurret();
   waveManager();
   rewardManager();
+  showGameOver();
 }
