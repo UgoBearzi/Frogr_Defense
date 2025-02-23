@@ -1,7 +1,9 @@
+// basic tile variables
 int tileSize = 50;
 int rows = 28;
 int columns = 20;
 
+// wave related variables
 int wave = 1;
 boolean isWaveOn;
 boolean hasGrabbedTurret1;
@@ -9,9 +11,13 @@ boolean hasGrabbedTurret2;
 boolean hasGrabbedTurret3;
 boolean hasGrabbedTurret4;
 
+// initializes the array of Tiles
 Tile[][] tiles = new Tile[rows][columns];
+
+// initializes the spawner
 Spawner spawner = new Spawner(tileSize, tileSize, 0, 10*tileSize, color(247, 143, 87), color(161, 53, 53), color(247, 87, 87));
 
+// initializes the menu and related things like buttons and turrets
 LabeledButton waveButton = new LabeledButton(100,50, 1450, 900, color(79, 214, 0), color(93, 255, 0), color(57, 156, 0), "Start Wave");
 
 Turret turretFrogr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 10, 3, 5, 230, 500, color(14, 166, 0));
@@ -21,13 +27,15 @@ Turret turretSprogr = new Turret(50, 50, 0, 0, color(100), color(50), color(150)
 LabeledButton turretButton2 = new LabeledButton(50,50, 1525, 150, color(255, 213, 0), color(219, 183, 0), color(255, 229, 94), "Sporgr");
 
 Turret turretGrorg = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 15, 6, 2, 100, 1000, color(245, 44, 44));
-LabeledButton turretButton3 = new LabeledButton(50,50, 1425, 200, color(245, 44, 44), color(179, 36, 36), color(255, 94, 94), "Grorg");
+LabeledButton turretButton3 = new LabeledButton(50,50, 1425, 300, color(245, 44, 44), color(179, 36, 36), color(255, 94, 94), "Grorg");
 
 Turret turretTorgr = new Turret(50, 50, 0, 0, color(100), color(50), color(150), 10, 6, 10, 500, 1500, color(76, 4, 201));
-LabeledButton turretButton4 = new LabeledButton(50,50, 1525, 200, color(76, 4, 201), color(37, 0, 102), color(121, 51, 242), "Torgr");
+LabeledButton turretButton4 = new LabeledButton(50,50, 1525, 300, color(76, 4, 201), color(37, 0, 102), color(121, 51, 242), "Torgr");
 
-Menu menu = new Menu("Frogr defense", waveButton, 2000, turretFrogr, turretSprogr, turretGrorg, turretTorgr, 
-turretButton1, turretButton2, turretButton3, turretButton4, 100, 150, 250, 350);
+Menu menu = new Menu("Frogr defense", waveButton, 200, turretFrogr, turretSprogr, turretGrorg, turretTorgr, 
+turretButton1, turretButton2, turretButton3, turretButton4, 100, 150, 200, 250);
+
+// setup for the grid
 
 public void setupGrid(){
 
@@ -62,15 +70,56 @@ public void setupGrid(){
   tiles[27][9] = new Tower(tileSize, tileSize, 27*tileSize, 9*tileSize, color(40, 168, 64), color(74, 237, 105), color(28, 117, 45), 5);
 }
 
+//setup for the enemies
 public void setupEnemies(){
   // Wave 1
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, 0, 500, 1, 1, 5, 50, color(0)));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, -200, 500, 1, 1, 5, 50, color(0)));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, -400, 500, 1, 1, 5, 50, color(0)));
+  for(int i = 0; i < 8; i++){
+    ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies1, new Enemy(30, (0 - 200 * i), 500, 2, 1, 5, 10, color(0)));
+  }
+  
   // Wave 2
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, 0, 500, 1, 1, 5, 50, color(0)));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, -200, 500, 1, 1, 5, 50, color(0)));
-  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(40, -400, 500, 1, 1, 5, 50, color(0)));
+  for(int i = 0; i < 10; i++){
+    ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(30, (0 - 200 * i), 500, 2, 1, 5, 10, color(0)));
+  }
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(25, -1800, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies2, new Enemy(25, -2000, 500, 5, 2, 5, 10, color(255, 225, 0)));
+
+  // Wave 3
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(50, 0, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(50, -200, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(50, -400, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  for(int i = 0; i < 10; i++){
+    ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(30, (-400 - 200 * i), 500, 2, 1, 5, 10, color(0)));
+  }
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(25, -2200, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(25, -2400, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies3, new Enemy(25, -2600, 500, 5, 2, 5, 10, color(255, 225, 0)));
+
+  // Wave 4
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(50, 0, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(50, -200, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(50, -1000, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(50, -2000, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  for(int i = 0; i < 10; i++){
+    ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(30, (-400 - 200 * i), 500, 2, 1, 5, 10, color(0)));
+  }
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(25, -2200, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(25, -2400, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(25, -2600, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies4, new Enemy(20, -2600, 500, 10, 0, 10, 50, color(255, 208, 0)));
+
+  // Wave 5
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(60, 0, 500, 1, 3, 10, 25, color(255, 25, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(50, -200, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(50, -1000, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(50, -2000, 500, 1, 3, 10, 25, color(69, 138, 0)));
+  for(int i = 0; i < 10; i++){
+    ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(30, (-400 - 200 * i), 500, 2, 1, 5, 10, color(0)));
+  }
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(25, -2200, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(25, -2400, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(25, -2600, 500, 5, 2, 5, 10, color(255, 225, 0)));
+  ((Spawner)tiles[0][10]).addEnemies(((Spawner)tiles[0][10]).enemies5, new Enemy(20, -2600, 500, 10, 0, 10, 50, color(255, 225, 0)));
 }
 
 public void setup(){
@@ -89,17 +138,25 @@ public void setup(){
   
 }
 
+// based on the current wave returns the arraList of the wave
 public ArrayList<Enemy> getCurrentWaveEnemies(){
   switch (wave) {
     case 1:
       return ((Spawner)tiles[0][10]).enemies1;
     case 2:
       return ((Spawner)tiles[0][10]).enemies2;
+    case 3:
+      return ((Spawner)tiles[0][10]).enemies3;
+    case 4:
+      return ((Spawner)tiles[0][10]).enemies4;
+    case 5:
+      return ((Spawner)tiles[0][10]).enemies5;
     default :
       return ((Spawner)tiles[0][10]).enemies1;
   }
 }
 
+// shows the victory screen
 public void showVictory(){
   fill(0, 255, 0, 25);
   rect(0,0, 1600, 1000);
@@ -110,25 +167,31 @@ public void showVictory(){
   text("YOU WON!", 800, 500);
 }
 
+// manages the waves
 public void waveManager(){
+  
+  // starts the waves
   if(menu.getStartWaveButton().getIsPressed()){
     isWaveOn = true;
   }
 
-  if (((Spawner)tiles[0][10]).areAllEnemiesDead(getCurrentWaveEnemies())) {
+  // checks if all enemies of a wave are dead, if so then the next wave is set
+  if (((Spawner)tiles[0][10]).areAllEnemiesDead(getCurrentWaveEnemies()) && wave != 6) {
     isWaveOn = false;
     wave += 1;
   }
 
-  if(isWaveOn){
+  // shows enemies of the current wave
+  if(isWaveOn && wave != 6){
     ((Spawner)tiles[0][10]).showEnemies(getCurrentWaveEnemies());
   }
 
-  if(wave = 5){
+  if(wave == 6){
     showVictory();
   }
 }
 
+// gives money for each enemy defeated
 public void rewardManager(){
   for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
     if(getCurrentWaveEnemies().get(i).checkIfDead()){
@@ -139,7 +202,10 @@ public void rewardManager(){
 
 }
 
+// manages the logic of buying and placing turrets
 public void buyTurret(){
+
+  // checks if the turret can be bought
   if(menu.getTurretButton1().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret1Cost()){
     hasGrabbedTurret1 = true;
     hasGrabbedTurret2 = false;
@@ -147,11 +213,13 @@ public void buyTurret(){
     hasGrabbedTurret4 = false;
   }
 
+  // checks if the turret has been bought
   if(hasGrabbedTurret1){
     fill(100,100,100,50);
     ellipse(mouseX, mouseY, menu.getTurret1().range, menu.getTurret1().range);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < columns; j++){
+        // checks if the turret can be placed
         if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
           tiles[i][j] = menu.getTurret1InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret1Cost());
@@ -161,6 +229,7 @@ public void buyTurret(){
     }
   }
 
+  // checks if the turret can be bought
   if(menu.getTurretButton2().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret2Cost()){
     hasGrabbedTurret2 = true;
     hasGrabbedTurret1 = false;
@@ -168,11 +237,13 @@ public void buyTurret(){
     hasGrabbedTurret4 = false;
   }
 
+  // checks if the turret has been bought
   if(hasGrabbedTurret2){
     fill(100,100,100,50);
     ellipse(mouseX, mouseY, menu.getTurret2().range, menu.getTurret2().range);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < columns; j++){
+        // checks if the turret can be placed
         if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
           tiles[i][j] = menu.getTurret2InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret2Cost());
@@ -182,6 +253,7 @@ public void buyTurret(){
     }
   }
 
+  // checks if the turret can be bought
   if(menu.getTurretButton3().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret3Cost()){
     hasGrabbedTurret3 = true;
     hasGrabbedTurret1 = false;
@@ -189,11 +261,13 @@ public void buyTurret(){
     hasGrabbedTurret4 = false;
   }
 
+  // checks if the turret has been bought
   if(hasGrabbedTurret3){
     fill(100,100,100,50);
     ellipse(mouseX, mouseY, menu.getTurret3().range, menu.getTurret3().range);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < columns; j++){
+        // checks if the turret can be placed
         if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
           tiles[i][j] = menu.getTurret3InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret3Cost());
@@ -203,6 +277,7 @@ public void buyTurret(){
     }
   }
 
+  // checks if the turret can be bought
   if(menu.getTurretButton4().getIsPressed() && menu.getCurrentMoney() >= menu.getTurret4Cost()){
     hasGrabbedTurret4 = true;
     hasGrabbedTurret1 = false;
@@ -210,11 +285,13 @@ public void buyTurret(){
     hasGrabbedTurret3 = false;
   }
 
+  // checks if the turret has been bought
   if(hasGrabbedTurret4){
     fill(100,100,100,50);
     ellipse(mouseX, mouseY, menu.getTurret4().range, menu.getTurret4().range);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < columns; j++){
+        // checks if the turret can be placed
         if(tiles[i][j].getIsPressed() && tiles[i][j] instanceof Tile && !(tiles[i][j] instanceof Road || tiles[i][j] instanceof Spawner || tiles[i][j] instanceof Tower)){
           tiles[i][j] = menu.getTurret4InGrid(i,j,tileSize);
           menu.setCurrentMoney(menu.getCurrentMoney() - menu.getTurret4Cost());
@@ -225,6 +302,7 @@ public void buyTurret(){
   }
 }
 
+// shows the game over screen
 public void showGameOver(){
   if(((Tower)tiles[27][9]).health <= 0){
     fill(255, 0, 0, 25);
@@ -243,15 +321,16 @@ public void draw(){
   menu.show();
   
   
-
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){   
+      // manages the bullet following an enemy
       if(tiles[i][j] instanceof Turret){
         for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
           ((Turret)tiles[i][j]).moveBullet(getCurrentWaveEnemies().get(l));
         }
       }
 
+      // manages the direction of enemies
       if(tiles[i][j] instanceof Road && tiles[0][10] instanceof Spawner){
         for(int l = 0; l < getCurrentWaveEnemies().size(); l++){
           ((Road)tiles[i][j]).changeEnemyDirection(getCurrentWaveEnemies().get(l));
@@ -259,21 +338,24 @@ public void draw(){
       }
     }
   }
-
+  
+  // manages the tower being damaged
   for(int i = 0; i < getCurrentWaveEnemies().size(); i++){
     if(tiles[27][9] instanceof Tower){
       ((Tower)tiles[27][9]).takeDamage(getCurrentWaveEnemies().get(i));
     }
   }
 
+  // shows all tiles
   for(int i = 0; i < rows; i++){
     for(int j = 0; j < columns; j++){
       tiles[i][j].show();
     }
   }
 
+  // shows the spawner
   tiles[0][10].show();
-
+  
   buyTurret();
   waveManager();
   rewardManager();

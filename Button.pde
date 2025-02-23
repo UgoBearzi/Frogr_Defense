@@ -53,6 +53,7 @@ class Button{
     rect(x, y, width, height);
   }
 
+  // changes the sate based on the pointer position and if it is clicking the button
   public void buttonStatus(){
     if(!mousePressed){
       setIsPressed(false);
@@ -68,6 +69,7 @@ class Button{
     
   }
   
+  // changes color based on the state
   public void changeColor(){
     if(getIsPressed() && getIsOver()){
       this.currentColor = pressedColor;

@@ -35,10 +35,12 @@ class Tower extends Tile{
     }
   }
   
+  // checks if the enemy is inside the Tower
   public boolean isEnemyInside(Enemy enemy){
     return (enemy.getX() >= x && enemy.getY() >= y && (enemy.x + enemy.getEnemySize()) <= (x + width) && (enemy.getY() + enemy.getEnemySize()) <= (y + height));
   }
   
+  // takes damage if an enemy is inside the Tower
   public void takeDamage(Enemy enemy){
     if(isEnemyInside(enemy) && enemy.getHealth() > 0 && enemy.getIsVisible()){
       health -= enemy.getDamage();

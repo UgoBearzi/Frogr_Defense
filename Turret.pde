@@ -33,18 +33,22 @@ class Turret extends Tile{
     this.turretColor = turretColor;
   }
 
+  // puts startTimeBullet to the current time to essentally reset it
   public void resetStartTimeBullet(){
     startTimeBullet = System.currentTimeMillis();
   }
 
+  // checks if the current time minus the starting point in time is greater that the time between shots, if true it can shoot again
   public boolean canFireNextShot(){
     return System.currentTimeMillis() - startTimeBullet >= timeBetweenShots;
   }
 
+  // checks if the enemy is inside the range of the turret
   public boolean isEnemyInside(Enemy enemy){
     return (enemy.getX() >= x-range && enemy.getY() >= y-range && (enemy.x + enemy.getEnemySize()) <= (x+range) && (enemy.getY() + enemy.getEnemySize()) <= (y+range));
   }
 
+  // with a more accurate formula checks if the bullet is inside the enemy
   public boolean isBulletInsideEnemy(Enemy enemy){
     return (bulletX >= enemy.getX() && bulletX <= enemy.getX() + enemy.getEnemySize() || 
     enemy.getX() >= bulletX && enemy.getX() <= bulletX + bulletSize) && 
@@ -52,6 +56,8 @@ class Turret extends Tile{
     enemy.getY() >= bulletY && enemy.getY() < bulletY + bulletSize);
   }
 
+
+  // moves the bullet towards the enmy
   public void moveBullet(Enemy enemy){
     float deltaX = enemy.getX() - bulletX;
     float deltaY = enemy.getY() - bulletY;
@@ -62,6 +68,7 @@ class Turret extends Tile{
         bulletY += bulletSpeed * Math.sin(angle);
     }
 
+    //damages the enemy if the bullet is inside the enemy
     if(isBulletInsideEnemy(enemy) && enemy.getIsVisible()){
         enemy.setHealth(enemy.getHealth() - bulletDamage);
         bulletX = x + width/2;

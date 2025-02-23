@@ -4,6 +4,7 @@ public class Enemy{
   protected int damage;
   protected int health;
   protected int reward;
+  // needed to avoid interactions when the enemy isnt visible
   protected boolean isVisible;
   protected Direction movementDirection;
   protected color enemyColor;
@@ -128,6 +129,7 @@ public class Enemy{
     health -= externalDamage;
   }
   
+  // checks if the enemy is dead
   public boolean checkIfDead(){
     return getHealth() <= 0;
   }

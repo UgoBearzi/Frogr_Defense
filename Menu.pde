@@ -174,6 +174,7 @@ class Menu{
     this.turret4Cost = turret4Cost;
   }
 
+  // returns Turret1 but with coordinates from attributes in input
   public Turret getTurret1InGrid(int i, int j, int tileSize){
     Turret turretToPlace = new Turret(getTurret1().width,getTurret1().height,i*tileSize,j*tileSize, getTurret1().buttonColor, getTurret1().pressedColor, getTurret1().highlightColor, 
     getTurret1().bulletSize, getTurret1().bulletDamage, getTurret1().bulletSpeed, getTurret1().range, getTurret1().timeBetweenShots, getTurret1().turretColor);
@@ -181,6 +182,7 @@ class Menu{
     return turretToPlace;
   }
 
+  // returns Turret2 but with coordinates from attributes in input
   public Turret getTurret2InGrid(int i, int j, int tileSize){
     Turret turretToPlace = new Turret(getTurret2().width,getTurret2().height,i*tileSize,j*tileSize, getTurret2().buttonColor, getTurret2().pressedColor, getTurret2().highlightColor, 
     getTurret2().bulletSize, getTurret2().bulletDamage, getTurret2().bulletSpeed, getTurret2().range, getTurret2().timeBetweenShots, getTurret2().turretColor);
@@ -188,6 +190,7 @@ class Menu{
     return turretToPlace;
   }
 
+  // returns Turret3 but with coordinates from attributes in input
   public Turret getTurret3InGrid(int i, int j, int tileSize){
     Turret turretToPlace = new Turret(getTurret3().width,getTurret3().height,i*tileSize,j*tileSize, getTurret3().buttonColor, getTurret3().pressedColor, getTurret3().highlightColor, 
     getTurret3().bulletSize, getTurret3().bulletDamage, getTurret3().bulletSpeed, getTurret3().range, getTurret3().timeBetweenShots, getTurret3().turretColor);
@@ -195,6 +198,7 @@ class Menu{
     return turretToPlace;
   }
 
+  // returns Turret4 but with coordinates from attributes in input
   public Turret getTurret4InGrid(int i, int j, int tileSize){
     Turret turretToPlace = new Turret(getTurret4().width,getTurret4().height,i*tileSize,j*tileSize, getTurret4().buttonColor, getTurret4().pressedColor, getTurret4().highlightColor, 
     getTurret4().bulletSize, getTurret4().bulletDamage, getTurret4().bulletSpeed, getTurret4().range, getTurret4().timeBetweenShots, getTurret4().turretColor);
@@ -215,9 +219,16 @@ class Menu{
 
     startWaveButton.show();
     turretButton1.show();
+    textSize(12);
+    textAlign(CENTER);
+    fill(0);
+    text("Cost: " + getTurret1Cost(), getTurretButton1().x+getTurretButton1().width/2, getTurretButton1().y-getTurretButton1().height/2);
     turretButton2.show();
+    text("Cost: " + getTurret2Cost(), getTurretButton2().x+getTurretButton2().width/2, getTurretButton2().y-getTurretButton2().height/2);
     turretButton3.show();
+    text("Cost: " + getTurret3Cost(), getTurretButton3().x+getTurretButton3().width/2, getTurretButton3().y-getTurretButton3().height/2);
     turretButton4.show();
+    text("Cost: " + getTurret4Cost(), getTurretButton4().x+getTurretButton4().width/2, getTurretButton4().y-getTurretButton4().height/2);
   }
   
   
